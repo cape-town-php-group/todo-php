@@ -6,14 +6,14 @@ Inspired by [TodoMVC](http://todomvc.com/), this repository holds various implem
 Specification
 -------------
 
-Applications MUST be written in PHP.
-Applications MUST present a list of tasks.
-Applications MUST allow the addition of tasks.
-Applications MUST allow the deletion of tasks.
-Applications MUST include installation instructions or [Vagrant](http://www.vagrantup.com/) configuration.
-Applications SHOULD use a form of "remote" task storage (e.g [MySQL](http://www.mysql.com/), [Memcache](http://memcached.org/), filesystem).
-Applications SHOULD have easy-to-read code.
-Applications SHOULD make use of [good coding practises](http://phptherightway.com).
+- Applications MUST be written in PHP.
+- Applications MUST present a list of tasks.
+- Applications MUST allow the addition of tasks.
+- Applications MUST allow the deletion of tasks.
+- Applications MUST include installation instructions or [Vagrant](http://www.vagrantup.com/) configuration.
+- Applications SHOULD use a form of "remote" task storage (e.g [MySQL](http://www.mysql.com/), [Memcache](http://memcached.org/), filesystem).
+- Applications SHOULD have easy-to-read code.
+- Applications SHOULD make use of [good coding practises](http://phptherightway.com).
 
 Contributing
 ------------
