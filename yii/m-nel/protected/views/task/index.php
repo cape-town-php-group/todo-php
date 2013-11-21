@@ -1,11 +1,15 @@
 <?php
 /* @var $this TaskController */
 /* @var $tasks Task[] */
+/* @var $model Task */
 ?>
 
 <header id="header">
-    <h1>todos</h1>
-    <input id="new-todo" placeholder="What needs to be done?" autofocus>
+    <h1>todos - <?php echo Task::model()->count(); ?></h1>
+    <?php $this->renderPartial('_form', array(
+        'model'=>$model,
+        'action'=>Yii::app()->createAbsoluteUrl('task/create'),
+    )); ?>
 </header>
 
 <?php if(count($tasks) > 0): ?>

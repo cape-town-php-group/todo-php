@@ -5,13 +5,37 @@ class TaskController extends Controller
 	public function actionIndex()
 	{
         $tasks = Task::model()->findAll();
+        $model = new Task;
         
 		$this->render('index', array(
             'tasks'=>$tasks,
+            'model'=>$model,
         ));
 	}
+    
+    /**
+     * Creates a new model.
+     */
+    public function actionCreate()
+    {
+        $model=new Task;
 
-	// Uncomment the following methods and override them if needed
+        if(isset($_POST['Task']))
+        {
+            $model->attributes=$_POST['Task'];
+            if($model->save())
+            {
+                $this->redirect(array('index'));
+            }
+            else
+            {
+                $this->redirect(array('index'));
+            }
+        }
+    }
+
+
+    // Uncomment the following methods and override them if needed
 	/*
 	public function filters()
 	{
