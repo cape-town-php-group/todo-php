@@ -4,6 +4,12 @@
 /* @var $model Task */
 ?>
 
+<?php if(Yii::app()->user->hasFlash('error')):?>
+    <div class="flash error">
+        <?php echo Yii::app()->user->getFlash('error'); ?>
+    </div>
+<?php endif; ?>
+
 <header id="header">
     <h1>todos - <?php echo Task::model()->count(); ?></h1>
     <?php $this->renderPartial('_form', array(

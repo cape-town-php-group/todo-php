@@ -29,6 +29,7 @@ class TaskController extends Controller
             }
             else
             {
+                Yii::app()->user->setFlash('error', $model->getError('name'));
                 $this->redirect(array('index'));
             }
         }
