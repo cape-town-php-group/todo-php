@@ -9,6 +9,9 @@ return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'Yii - Todo PHP',
 
+    // Set default root route ('/') to task controller
+    'defaultController' => 'task',
+
 	// preloading 'log' component
 	'preload'=>array('log'),
 
