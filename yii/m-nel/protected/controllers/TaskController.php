@@ -4,7 +4,11 @@ class TaskController extends Controller
 {
 	public function actionIndex()
 	{
-		$this->render('index');
+        $tasks = Task::model()->findAll();
+        
+		$this->render('index', array(
+            'tasks'=>$tasks,
+        ));
 	}
 
 	// Uncomment the following methods and override them if needed
