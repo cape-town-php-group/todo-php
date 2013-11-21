@@ -1,0 +1,8 @@
+/* 
+    Description:
+        Overrides for base css.
+*/
+
+body {
+	background: #eaeaea url('/images/bg.png');
+}
