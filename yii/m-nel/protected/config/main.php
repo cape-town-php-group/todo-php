@@ -42,7 +42,12 @@ return array(
             'showScriptName'=>false,
 		),
 		'db'=>array(
+            'class'=>'CDbConnection',
 			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/yiitodophp.db',
+		),
+		'testdb'=>array(
+            'class'=>'CDbConnection',
+			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/test.db',
 		),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors

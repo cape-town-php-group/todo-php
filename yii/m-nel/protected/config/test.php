@@ -6,12 +6,8 @@ return CMap::mergeArray(
 		'components'=>array(
 			'fixture'=>array(
 				'class'=>'system.test.CDbFixtureManager',
+                'connectionID'=>'testdb',
 			),
-			/* uncomment the following to provide test database connection
-			'db'=>array(
-				'connectionString'=>'DSN for test database',
-			),
-			*/
 		),
 	)
 );

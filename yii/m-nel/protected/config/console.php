@@ -12,7 +12,12 @@ return array(
 	// application components
 	'components'=>array(
 		'db'=>array(
+            'class'=>'CDbConnection',
 			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/yiitodophp.db',
+		),
+		'testdb'=>array(
+            'class'=>'CDbConnection',
+			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/test.db',
 		),
 		'log'=>array(
 			'class'=>'CLogRouter',
