@@ -6,9 +6,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Yii - TodoPHP</title>
-    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="/css/base.css">
     <!-- CSS overrides -->
-    <link rel="stylesheet" href="css/todo.css">
+    <link rel="stylesheet" href="/css/todo.css">
 </head>
 <body>
     
