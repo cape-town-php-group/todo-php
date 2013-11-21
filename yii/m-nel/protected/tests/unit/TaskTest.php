@@ -1,6 +1,8 @@
 <?php
 
-class TaskTest extends CDbTestCase
+Yii::import('application.tests.DbTestCase');
+
+class TaskTest extends DbTestCase
 {
     public $fixtures=array(
         'tasks'=>'Task',

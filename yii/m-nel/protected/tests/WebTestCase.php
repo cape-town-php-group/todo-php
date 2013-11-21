@@ -21,5 +21,8 @@ class WebTestCase extends CWebTestCase
 	{
 		parent::setUp();
 		$this->setBrowserUrl(TEST_BASE_URL);
+        
+        // Migrate database
+        MigrateHelper::runMigrate();
 	}
 }
