@@ -29,6 +29,7 @@ class Task extends CActiveRecord
 			array('name', 'required'),
 			array('status', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>45),
+            array('name', 'filter', 'filter'=>'trim'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, name, status', 'safe', 'on'=>'search'),

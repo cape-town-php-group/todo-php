@@ -9,10 +9,25 @@ class TaskTest extends DbTestCase
     );
     
     /**
-     * Temporary test
+     * Basic create task
      */
-    public function testTemp()
+    public function testCreateTask()
     {
-        $this->assertTrue(true);
+        // Insert a task
+        $task = new Task;
+        $task->name = 'Test create';
+        $this->assertTrue($task->save());
+    }
+    
+    /**
+     * Test that when creating a task, the name is trimmed.
+     */
+    public function testTrimName()
+    {
+        $task = new Task;
+        $task->name = '   Test trim   ';
+        $this->assertTrue($task->save());
+        
+        $this->assertEquals($task->name, 'Test trim');
     }
 }
