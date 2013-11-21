@@ -6,8 +6,11 @@ return CMap::mergeArray(
 		'components'=>array(
 			'fixture'=>array(
 				'class'=>'system.test.CDbFixtureManager',
-                'connectionID'=>'testdb',
 			),
+            'db'=>array(
+                'class'=>'CDbConnection',
+                'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/test.db',
+            ),
 		),
 	)
 );
