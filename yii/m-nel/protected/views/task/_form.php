@@ -10,8 +10,6 @@
     'action'=>$action,
 )); ?>
 
-	<?php echo $form->errorSummary($model); ?>
-
     <?php echo $form->textField($model,'name',array(
         'size'=>45,
         'maxlength'=>45,
