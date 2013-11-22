@@ -95,6 +95,7 @@ class TaskController extends Controller
         if(isset($_POST['Task']))
         {
             $task = $this->loadTask($id);
+            $task->scenario = 'update';
             $task->attributes = $_POST['Task'];
             $task->update();
         }

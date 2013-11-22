@@ -112,4 +112,21 @@ class TaskTest extends DbTestCase
         $this->assertTrue($this->tasks('task1')->toggleStatus());
         $this->assertTrue($this->tasks('task1')->isCompleted());
     }
+    
+    public function testDeleteIfEmptyName()
+    {
+        $task = Task::model()->findByAttributes(array(
+            'name'=>'Create a TodoPHP app',
+        ));
+        $this->assertNotNull($task);
+        
+        $task->scenario = 'update';
+        $task->name = '';
+        $task->save();
+        
+        $task = Task::model()->findByAttributes(array(
+            'name'=>'Create a TodoPHP app',
+        ));
+        $this->assertNull($task);
+    }
 }

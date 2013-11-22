@@ -29,7 +29,7 @@ class Task extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name', 'required'),
+			array('name', 'required', 'on'=>'insert'),
 			array('status', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>45),
             array('name', 'filter', 'filter'=>'trim'),
@@ -208,5 +208,24 @@ class Task extends CActiveRecord
         }
         
         return $this->save();
+    }
+    
+    protected function beforeSave() {
+        Yii::log('In beforeSave()');
+        
+        if(!parent::beforeSave())
+        {
+            Yii::log('parent::beforeSave() == false');
+            return false;
+        }
+        
+        if(!$this->isNewRecord && empty($this->name))
+        {
+            Yii::log('empty name');
+            $this->delete();
+            return false;
+        }
+        
+        return true;
     }
 }
