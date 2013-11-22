@@ -105,4 +105,11 @@ class TaskTest extends DbTestCase
         $this->assertEquals(Task::getCompletedTasksCount(), 0);
         $this->assertFalse(Task::areAllTasksCompleted());
     }
+    
+    public function testCompleteTask()
+    {
+        $this->assertFalse($this->tasks('task1')->isCompleted());
+        $this->assertTrue($this->tasks('task1')->toggleStatus());
+        $this->assertTrue($this->tasks('task1')->isCompleted());
+    }
 }

@@ -190,4 +190,23 @@ class Task extends CActiveRecord
         $totalTasks = $completedTasks + self::getActiveTasksCount();
         return $totalTasks === $completedTasks;
     }
+    
+    /**
+     * Toggle the task's status
+     * 
+     * @return boolean True if updated successfully, false otherwise.
+     */
+    public function toggleStatus()
+    {
+        if($this->status == self::STATUS_ACTIVE)
+        {
+            $this->status = self::STATUS_COMPLETED;
+        }
+        else
+        {
+            $this->status = self::STATUS_ACTIVE;
+        }
+        
+        return $this->save();
+    }
 }

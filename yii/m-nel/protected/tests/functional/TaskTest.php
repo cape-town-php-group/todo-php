@@ -144,4 +144,15 @@ class TaskTest extends WebTestCase
         
         $this->assertEquals($this->getXpathCount("xpath=//input[@id='toggle-all' and @checked='checked']"), 0);
     }
+    
+    public function testCompleteTask()
+    {
+        $this->open('');
+        $this->assertEquals(1, $this->getXpathCount("xpath=//input[@class='toggle' and @type='checkbox' and not(@checked)]"));
+        
+        $this->click("xpath=//input[@class='toggle' and @type='checkbox' and not(@checked)]");
+        $this->refreshAndWait(10000);
+        
+        $this->assertEquals(0, $this->getXpathCount("xpath=//input[@class='toggle' and @type='checkbox' and not(@checked)]"));
+    }
 }

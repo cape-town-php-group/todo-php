@@ -64,6 +64,22 @@ class TaskController extends Controller
         
         $this->redirect(array('task/index'));
     }
+    
+    /**
+     * Toggle a task's status.
+     */
+    public function actionToggle($id)
+    {
+        $task = Task::model()->findByPk($id);
+        if($task === null)
+        {
+            throw new CHttpException(404, 'The requested page does not exist.');
+        }
+        
+        $task->toggleStatus();
+        
+        $this->redirect(array('task/index'));
+    }
 
 
     // Uncomment the following methods and override them if needed

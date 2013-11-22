@@ -4,7 +4,11 @@
 
 <li <?php echo $task->isCompleted()?'class="completed"':''; ?>>
     <div class="view">
-        <input class="toggle" type="checkbox" <?php echo $task->isCompleted()?'checked':''; ?>>
+        <?php echo CHtml::checkBox('task-status', $task->isCompleted(), array(
+            'class'=>'toggle',
+            'data-target'=>Yii::app()->createAbsoluteUrl('task/toggle', array('id'=>$task->id)),
+        )); ?>
+
         <label><?php echo $task->name; ?></label>
         <button class="destroy"></button>
     </div>

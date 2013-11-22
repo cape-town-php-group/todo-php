@@ -5,6 +5,13 @@
 /* @var $todoCount integer */
 /* @var $completedCount integer */
 /* @var $allTasksCompleted boolean */
+
+Yii::app()->clientScript->registerScript('toggle', "
+    $('.toggle').bind('change', function() {
+        var toggleURL = $(this).attr('data-target');
+        window.location = toggleURL;
+    });
+");
 ?>
 
 
