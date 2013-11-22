@@ -148,4 +148,14 @@ class Task extends CActiveRecord
             'status'=> $state? Task::STATUS_COMPLETED : Task::STATUS_ACTIVE,
         ));
     }
+    
+    /**
+     * Deletes all completed tasks
+     */
+    public static function clearCompleted()
+    {
+        Task::model()->deleteAll(
+            Task::model()->completed()->getDbCriteria()
+        );
+    }
 }
