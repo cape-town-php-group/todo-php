@@ -3,6 +3,7 @@
 /* @var $tasks Task[] */
 /* @var $model Task */
 /* @var $todoCount integer */
+/* @var $completedCount integer */
 ?>
 
 
@@ -23,7 +24,7 @@
 
 <?php if(count($tasks) > 0): ?>
 
-    <!-- This section should be hidden by default and shown when there are todos -->
+    <!-- Todo list -->
     <section id="main">
         <?php $this->renderPartial('_toggleAllForm'); ?>
         
@@ -33,28 +34,11 @@
            } ?>
         </ul>
     </section>
-
-    <!-- This footer should hidden by default and shown when there are todos -->
-    <footer id="footer">
-        <!-- This should be `0 items left` by default -->
-        <span id="todo-count">
-            <strong><?php echo $todoCount; ?></strong>
-            item<?php echo ($todoCount==1)?'':'s'; ?> left
-        </span>
-        <!-- Remove this if you don't implement routing -->
-        <ul id="filters">
-            <li>
-                <a class="selected" href="#/">All</a>
-            </li>
-            <li>
-                <a href="#/active">Active</a>
-            </li>
-            <li>
-                <a href="#/completed">Completed</a>
-            </li>
-        </ul>
-        <!-- Hidden if no completed items are left ↓ -->
-        <button id="clear-completed">Clear completed (1)</button>
-    </footer>
+    
+    <!-- Footer -->
+    <?php $this->renderPartial('_footer', array(
+        'completedCount'=>$completedCount,
+        'todoCount'=>$todoCount,
+    )); ?>
 
 <?php endif; ?>

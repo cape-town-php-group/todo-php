@@ -121,4 +121,27 @@ class TaskTest extends WebTestCase
         
         $this->assertEquals($this->getXpathCount("xpath=//li[@class='completed']"), 0);
     }
+    
+    public function testClearCompleted()
+    {
+        $this->open('');
+        $this->assertTextPresent('Clear completed (1)');
+        
+        $this->click('id=toggle-all');
+        $this->waitForPageToLoad(10000);
+        
+        $this->assertTextPresent('Clear completed (2)');
+        
+        $this->click('id=clear-completed');
+        $this->waitForPageToLoad(10000);
+        
+        $this->assertTextNotPresent('Clear completed');
+        
+        // Toggle all checkbox must be reset
+        $this->type('id=new-todo', 'test task');
+        $this->keyPress('id=new-todo', self::KEY_ENTER);
+        $this->waitForPageToLoad(10000);
+        
+        $this->assertEquals($this->getXpathCount("xpath=//input[@id='toggle-all' and @checked='checked']"), 0);
+    }
 }

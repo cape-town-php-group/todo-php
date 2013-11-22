@@ -12,6 +12,7 @@ div.error {
     background-color: #F1A7A6;
 }
 
-#toggle-all {
+#toggle-all,
+#clear-completed {
     cursor: pointer;
 }
