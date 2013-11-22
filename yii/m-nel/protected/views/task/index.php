@@ -18,6 +18,21 @@ Yii::app()->clientScript->registerScript('destroy', "
         window.location = destroyURL;
     });
 ");
+Yii::app()->clientScript->registerScript('editing', "
+    $('div.view>label').dblclick(function() {
+        var view = $(this).parent();
+        var task = view.parent();
+        task.addClass('editing');
+        
+        var edit = view.siblings('form').children('input.edit');
+        edit.focus();
+    });
+");
+Yii::app()->clientScript->registerScript('update', "
+    $('.edit').blur(function() {
+        $(this).parent('form').submit();
+    });
+");
 ?>
 
 
@@ -30,10 +45,7 @@ Yii::app()->clientScript->registerScript('destroy', "
         </div>
     <?php endif; ?>
     
-    <?php $this->renderPartial('_form', array(
-        'model'=>$model,
-        'action'=>Yii::app()->createAbsoluteUrl('task/create'),
-    )); ?>
+    <?php $this->renderPartial('_createForm', array('model'=>$model)); ?>
 </header>
 
 <?php if(count($tasks) > 0): ?>

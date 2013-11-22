@@ -166,4 +166,26 @@ class TaskTest extends WebTestCase
         
         $this->assertEquals(1, $this->getXpathCount("xpath=//button[@class='destroy']"));
     }
+    
+    public function testTaskEditMode()
+    {
+        $this->open('');
+        $this->assertFalse($this->isVisible("xpath=//input[@class='edit'][1]"));
+        
+        $this->doubleClick("//div[@class='view']//label[1]");
+        $this->assertTrue($this->isVisible("xpath=//input[@class='edit'][1]"));
+        
+        $this->type("xpath=//input[@class='edit'][1]", 'edited');
+        $this->keyPressAndWait("xpath=//input[@class='edit'][1]", self::KEY_ENTER);
+        $this->assertFalse($this->isVisible("xpath=//input[@class='edit'][1]"));
+        $this->assertEquals('edited', $this->getText("//div[@class='view']//label[1]"));
+        
+        $this->doubleClick("//div[@class='view']//label[1]");
+        $this->assertTrue($this->isVisible("xpath=//input[@class='edit'][1]"));
+        
+        $this->type("xpath=//input[@class='edit'][1]", 're-edited');
+        $this->fireEventAndWait("xpath=//input[@class='edit'][1]", "blur");
+        $this->assertFalse($this->isVisible("xpath=//input[@class='edit'][1]"));
+        $this->assertEquals('re-edited', $this->getText("//div[@class='view']//label[1]"));
+    }
 }

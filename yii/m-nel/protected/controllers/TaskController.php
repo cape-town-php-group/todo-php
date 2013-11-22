@@ -88,6 +88,21 @@ class TaskController extends Controller
     }
     
     /**
+     * Update a task.
+     */
+    public function actionUpdate($id)
+    {
+        if(isset($_POST['Task']))
+        {
+            $task = $this->loadTask($id);
+            $task->attributes = $_POST['Task'];
+            $task->update();
+        }
+        
+        $this->redirect(array('task/index'));
+    }
+    
+    /**
      * Fetches the specific task.
      * 
      * @param integer $id The ID of the task to fetch
