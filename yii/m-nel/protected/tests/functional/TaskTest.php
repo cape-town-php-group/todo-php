@@ -79,4 +79,11 @@ class TaskTest extends WebTestCase
         $this->refreshAndWait(10000);
         $this->assertTextPresent('0 items left');
     }
+    
+    public function testListTasks()
+    {
+        $this->open('');
+        $this->assertTextPresent($this->tasks('task1')->name);
+        $this->assertTextPresent($this->tasks('task2')->name);
+    }
 }
