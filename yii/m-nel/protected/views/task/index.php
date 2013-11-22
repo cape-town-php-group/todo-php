@@ -4,14 +4,16 @@
 /* @var $model Task */
 ?>
 
-<?php if(Yii::app()->user->hasFlash('error')):?>
-    <div class="flash error">
-        <?php echo Yii::app()->user->getFlash('error'); ?>
-    </div>
-<?php endif; ?>
 
 <header id="header">
-    <h1>todos - <?php echo Task::model()->count(); ?></h1>
+    <h1>todos</h1>
+    
+    <?php if(Yii::app()->user->hasFlash('error')):?>
+        <div id="validation-error" class="flash error">
+            <?php echo Yii::app()->user->getFlash('error'); ?>
+        </div>
+    <?php endif; ?>
+    
     <?php $this->renderPartial('_form', array(
         'model'=>$model,
         'action'=>Yii::app()->createAbsoluteUrl('task/create'),

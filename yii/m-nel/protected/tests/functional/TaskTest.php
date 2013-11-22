@@ -48,4 +48,15 @@ class TaskTest extends WebTestCase
         $this->waitForPageToLoad(10000);
         $this->assertNotEquals($numberOfTasks, (int)Task::model()->count());
     }
+    
+    public function testValidationErrorDisplay()
+    {
+        $this->open('');
+        
+        // Hit enter
+        $this->keyPress('id=new-todo', "\\13");
+        $this->waitForPageToLoad(10000);
+        
+        $this->assertElementPresent('id=validation-error');
+    }
 }
