@@ -4,6 +4,7 @@
 /* @var $model Task */
 /* @var $todoCount integer */
 /* @var $completedCount integer */
+/* @var $allTasksCompleted boolean */
 ?>
 
 
@@ -26,7 +27,9 @@
 
     <!-- Todo list -->
     <section id="main">
-        <?php $this->renderPartial('_toggleAllForm'); ?>
+        <?php $this->renderPartial('_toggleAllForm', array(
+            'allTasksCompleted'=>$allTasksCompleted
+        )); ?>
         
         <ul id="todo-list">
            <?php foreach ($tasks as $task) {

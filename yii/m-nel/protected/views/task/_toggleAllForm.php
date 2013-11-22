@@ -1,6 +1,7 @@
 <?php
 /* @var $this TaskController */
 /* @var $form CActiveForm */
+/* @var $allTasksCompleted boolean */
 
 Yii::app()->clientScript->registerScript('toggle-all', "
     $('#toggle-all').bind('change', function() {
@@ -16,7 +17,7 @@ Yii::app()->clientScript->registerScript('toggle-all', "
 
     <?php echo CHtml::hiddenField('toggleAll', 0); ?>
 
-    <?php echo CHtml::checkBox('toggleAll', Yii::app()->user->getState('toggleAll', false), array(
+    <?php echo CHtml::checkBox('toggleAll', $allTasksCompleted, array(
         'id'=>'toggle-all',
         'title'=>'Mark all as complete',
     )); ?>

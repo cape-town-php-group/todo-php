@@ -158,4 +158,36 @@ class Task extends CActiveRecord
             Task::model()->completed()->getDbCriteria()
         );
     }
+    
+    /**
+     * Returns the number of completed tasks
+     * 
+     * @return integer The number of completed tasks
+     */
+    public static function getCompletedTasksCount()
+    {
+        return (int)Task::model()->completed()->count();
+    }
+    
+    /**
+     * Returns the number of active tasks
+     * 
+     * @return integer The number of active tasks
+     */
+    public static function getActiveTasksCount()
+    {
+        return (int)Task::model()->active()->count();
+    }
+    
+    /**
+     * Returns whether all tasks have been completed or not
+     * 
+     * @return boolean True if all tasks have been completed, false otherwise.
+     */
+    public static function areAllTasksCompleted()
+    {
+        $completedTasks = self::getCompletedTasksCount();
+        $totalTasks = $completedTasks + self::getActiveTasksCount();
+        return $totalTasks === $completedTasks;
+    }
 }

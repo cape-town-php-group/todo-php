@@ -6,14 +6,16 @@ class TaskController extends Controller
 	{
         $tasks = Task::model()->findAll();
         $model = new Task;
-        $todoCount = Task::model()->active()->count();
-        $completedCount = Task::model()->completed()->count();
+        $todoCount = Task::getActiveTasksCount();
+        $completedCount = Task::getCompletedTasksCount();
+        $allTasksCompleted = Task::areAllTasksCompleted();
         
 		$this->render('index', array(
             'tasks'=>$tasks,
             'model'=>$model,
             'todoCount'=>$todoCount,
             'completedCount'=>$completedCount,
+            'allTasksCompleted'=>$allTasksCompleted,
         ));
 	}
     
@@ -49,7 +51,6 @@ class TaskController extends Controller
             $state = (bool)$_POST['toggleAll'];
             Task::toggleAll($state);
             
-            Yii::app()->user->setState('toggleAll', $state);
             $this->redirect(array('task/index'));
         }
     }
@@ -60,7 +61,6 @@ class TaskController extends Controller
     public function actionClearCompleted()
     {
         Task::clearCompleted();
-        Yii::app()->user->clearStates();
         
         $this->redirect(array('task/index'));
     }
