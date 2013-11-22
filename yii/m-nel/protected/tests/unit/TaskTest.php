@@ -46,4 +46,13 @@ class TaskTest extends DbTestCase
         
         $this->assertEquals((int)Task::model()->completed()->count(), 0);
     }
+    
+    public function testActiveScope()
+    {
+        $this->assertEquals((int)Task::model()->active()->count(), 1);
+        
+        $this->tasks('task1')->delete();
+        
+        $this->assertEquals((int)Task::model()->active()->count(), 0);
+    }
 }

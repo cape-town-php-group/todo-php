@@ -111,4 +111,19 @@ class Task extends CActiveRecord
         $this->getDbCriteria()->mergeWith($criteria);
         return $this;
     }
+    
+    /**
+     * Scope
+     * Only tasks that are active
+     * 
+     * @return Task The task instance
+     */
+    public function active()
+    {
+        $criteria=new CDbCriteria();
+        $criteria->compare('status', self::STATUS_ACTIVE);
+        
+        $this->getDbCriteria()->mergeWith($criteria);
+        return $this;
+    }
 }
