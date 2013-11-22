@@ -3,6 +3,7 @@
 class TaskTest extends WebTestCase
 {
     const KEY_ENTER = "\\13";
+    const KEY_ESCAPE = "\\27";
     
     public $fixtures=array(
         'tasks'=>'Task',
@@ -187,5 +188,16 @@ class TaskTest extends WebTestCase
         $this->fireEventAndWait("xpath=//input[@class='edit'][1]", "blur");
         $this->assertFalse($this->isVisible("xpath=//input[@class='edit'][1]"));
         $this->assertEquals('re-edited', $this->getText("//div[@class='view']//label[1]"));
+    }
+    
+    public function testTaskEscapeEditMode()
+    {
+        $this->open('');
+        $this->assertFalse($this->isVisible("xpath=//input[@class='edit'][1]"));
+        $this->doubleClick("//div[@class='view']//label[1]");
+        $this->type("xpath=//input[@class='edit'][1]", 'edited');
+        $this->keyDown("xpath=//input[@class='edit'][1]", self::KEY_ESCAPE);
+        $this->assertTrue($this->isVisible("//div[@class='view']//label[1]"));
+        $this->assertEquals('Rule the web', $this->getText("//div[@class='view']//label[1]"));
     }
 }

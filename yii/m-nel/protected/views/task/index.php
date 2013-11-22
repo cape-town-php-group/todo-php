@@ -33,6 +33,13 @@ Yii::app()->clientScript->registerScript('update', "
         $(this).parent('form').submit();
     });
 ");
+Yii::app()->clientScript->registerScript('escape-edit', "
+    $('.edit').on('keydown', function(e) {
+        if (e.keyCode == 27) {
+            $(this).parents('li').removeClass('editing');
+        }
+    });
+");
 ?>
 
 
