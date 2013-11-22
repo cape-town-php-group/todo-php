@@ -39,7 +39,7 @@
         <!-- This should be `0 items left` by default -->
         <span id="todo-count">
             <strong><?php echo $todoCount; ?></strong>
-            item<?php echo ($todoCount>1 || $todoCount==0)?'s':''; ?> left
+            item<?php echo ($todoCount==1)?'':'s'; ?> left
         </span>
         <!-- Remove this if you don't implement routing -->
         <ul id="filters">
