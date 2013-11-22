@@ -10,6 +10,9 @@
  */
 class Task extends CActiveRecord
 {
+    const STATUS_ACTIVE = 0;
+    const STATUS_COMPLETED = 1;
+    
 	/**
 	 * @return string the associated database table name
 	 */
@@ -30,8 +33,7 @@ class Task extends CActiveRecord
 			array('status', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>45),
             array('name', 'filter', 'filter'=>'trim'),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
+            
 			array('id, name, status', 'safe', 'on'=>'search'),
 		);
 	}
@@ -73,8 +75,6 @@ class Task extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
@@ -96,4 +96,19 @@ class Task extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+    
+    /**
+     * Scope
+     * Only tasks that have been completed
+     * 
+     * @return Task The task instance
+     */
+    public function completed()
+    {
+        $criteria=new CDbCriteria();
+        $criteria->compare('status', self::STATUS_COMPLETED);
+        
+        $this->getDbCriteria()->mergeWith($criteria);
+        return $this;
+    }
 }

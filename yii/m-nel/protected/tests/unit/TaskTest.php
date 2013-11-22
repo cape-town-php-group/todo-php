@@ -37,4 +37,13 @@ class TaskTest extends DbTestCase
         $task->name = '';
         $this->assertFalse($task->save());
     }
+    
+    public function testCompleteScope()
+    {
+        $this->assertEquals((int)Task::model()->completed()->count(), 1);
+        
+        $this->tasks('task2')->delete();
+        
+        $this->assertEquals((int)Task::model()->completed()->count(), 0);
+    }
 }
