@@ -2,6 +2,8 @@
 
 class TaskTest extends WebTestCase
 {
+    const KEY_ENTER = "\\13";
+    
     public $fixtures=array(
         'tasks'=>'Task',
     );
@@ -42,8 +44,7 @@ class TaskTest extends WebTestCase
         $this->open('');
         // Enter a value for task name
         $this->type('id=new-todo', 'test task');
-        // Hit enter
-        $this->keyPress('id=new-todo', "\\13");
+        $this->keyPress('id=new-todo', self::KEY_ENTER);
         
         $this->waitForPageToLoad(10000);
         $this->assertNotEquals($numberOfTasks, (int)Task::model()->count());
@@ -53,8 +54,7 @@ class TaskTest extends WebTestCase
     {
         $this->open('');
         
-        // Hit enter
-        $this->keyPress('id=new-todo', "\\13");
+        $this->keyPress('id=new-todo', self::KEY_ENTER);
         $this->waitForPageToLoad(10000);
         
         $this->assertElementPresent('id=validation-error');
@@ -100,9 +100,7 @@ class TaskTest extends WebTestCase
         $this->refreshAndWait(10000);
         $this->assertEquals($this->getXpathCount("xpath=//li[@class='completed']"), 2);
         
-        Task::model()->deleteAll(
-            Task::model()->completed()->getDbCriteria()
-        );
+        Task::clearCompleted();
         
         $this->refreshAndWait(10000);
         $this->assertEquals($this->getXpathCount("xpath=//li[@class='completed']"), 0);
