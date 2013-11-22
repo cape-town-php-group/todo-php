@@ -86,4 +86,25 @@ class TaskTest extends WebTestCase
         $this->assertTextPresent($this->tasks('task1')->name);
         $this->assertTextPresent($this->tasks('task2')->name);
     }
+    
+    public function testIndicateCompleted()
+    {
+        $this->open('');
+        $this->assertEquals($this->getXpathCount("xpath=//li[@class='completed']"), 1);
+        
+        $task = new Task;
+        $task->name = 'Completed task';
+        $task->status = Task::STATUS_COMPLETED;
+        $this->assertTrue($task->save());
+        
+        $this->refreshAndWait(10000);
+        $this->assertEquals($this->getXpathCount("xpath=//li[@class='completed']"), 2);
+        
+        Task::model()->deleteAll(
+            Task::model()->completed()->getDbCriteria()
+        );
+        
+        $this->refreshAndWait(10000);
+        $this->assertEquals($this->getXpathCount("xpath=//li[@class='completed']"), 0);
+    }
 }

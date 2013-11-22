@@ -2,9 +2,9 @@
 /* @var $task Task */
 ?>
 
-<li>
+<li <?php echo $task->isCompleted()?'class="completed"':''; ?>>
     <div class="view">
-        <input class="toggle" type="checkbox">
+        <input class="toggle" type="checkbox" <?php echo $task->isCompleted()?'checked':''; ?>>
         <label><?php echo $task->name; ?></label>
         <button class="destroy"></button>
     </div>

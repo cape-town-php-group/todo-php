@@ -98,6 +98,16 @@ class Task extends CActiveRecord
 	}
     
     /**
+     * Check if the task has been completed
+     * 
+     * @return boolean True if the task has been completed, false otherwise.
+     */
+    public function isCompleted()
+    {
+        return $this->status == self::STATUS_COMPLETED;
+    }
+    
+    /**
      * Scope
      * Only tasks that have been completed
      * 
