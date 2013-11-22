@@ -12,6 +12,12 @@ Yii::app()->clientScript->registerScript('toggle', "
         window.location = toggleURL;
     });
 ");
+Yii::app()->clientScript->registerScript('destroy', "
+    $('.destroy').click(function() {
+        var destroyURL = $(this).attr('data-target');
+        window.location = destroyURL;
+    });
+");
 ?>
 
 

@@ -70,15 +70,38 @@ class TaskController extends Controller
      */
     public function actionToggle($id)
     {
+        $task = $this->loadTask($id);
+        $task->toggleStatus();
+        
+        $this->redirect(array('task/index'));
+    }
+    
+    /**
+     * Delate a task.
+     */
+    public function actionDelete($id)
+    {
+        $task = $this->loadTask($id);
+        $task->delete();
+        
+        $this->redirect(array('task/index'));
+    }
+    
+    /**
+     * Fetches the specific task.
+     * 
+     * @param integer $id The ID of the task to fetch
+     * @return Task The specified task.
+     */
+    private function loadTask($id)
+    {
         $task = Task::model()->findByPk($id);
         if($task === null)
         {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
         
-        $task->toggleStatus();
-        
-        $this->redirect(array('task/index'));
+        return $task;
     }
 
 

@@ -10,7 +10,8 @@
         )); ?>
 
         <label><?php echo $task->name; ?></label>
-        <button class="destroy"></button>
+        
+        <button class="destroy" data-target="<?php echo Yii::app()->createAbsoluteUrl('task/delete', array('id'=>$task->id)); ?>"></button>
     </div>
     <input class="edit" value="<?php echo $task->name; ?>">
 </li>
