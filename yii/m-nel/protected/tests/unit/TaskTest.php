@@ -30,4 +30,11 @@ class TaskTest extends DbTestCase
         
         $this->assertEquals($task->name, 'Test trim');
     }
+    
+    public function testEmptyName()
+    {
+        $task = new Task;
+        $task->name = '';
+        $this->assertFalse($task->save());
+    }
 }
