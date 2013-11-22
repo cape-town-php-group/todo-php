@@ -6,10 +6,12 @@ class TaskController extends Controller
 	{
         $tasks = Task::model()->findAll();
         $model = new Task;
+        $todoCount = Task::model()->active()->count();
         
 		$this->render('index', array(
             'tasks'=>$tasks,
             'model'=>$model,
+            'todoCount'=>$todoCount,
         ));
 	}
     

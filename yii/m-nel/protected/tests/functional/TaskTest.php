@@ -59,4 +59,24 @@ class TaskTest extends WebTestCase
         
         $this->assertElementPresent('id=validation-error');
     }
+    
+    public function testTodoCount()
+    {
+        $this->open('');
+        $this->assertTextPresent('1 item left');
+        
+        $task = new Task;
+        $task->name = 'New task';
+        $this->assertTrue($task->save());
+        
+        $this->refreshAndWait(10000);
+        $this->assertTextPresent('2 items left');
+        
+        Task::model()->deleteAll(
+            Task::model()->active()->getDbCriteria()
+        );
+        
+        $this->refreshAndWait(10000);
+        $this->assertTextPresent('0 items left');
+    }
 }
