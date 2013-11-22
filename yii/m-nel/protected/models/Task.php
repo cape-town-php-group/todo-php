@@ -136,4 +136,16 @@ class Task extends CActiveRecord
         $this->getDbCriteria()->mergeWith($criteria);
         return $this;
     }
+    
+    /**
+     * Mark all tasks as either active or complete.
+     * 
+     * @param boolean $state If true mark all as completed, otherwise active.
+     */
+    public static function toggleAll($state)
+    {
+        Task::model()->updateAll(array(
+            'status'=> $state? Task::STATUS_COMPLETED : Task::STATUS_ACTIVE,
+        ));
+    }
 }

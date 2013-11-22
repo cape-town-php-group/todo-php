@@ -25,8 +25,8 @@
 
     <!-- This section should be hidden by default and shown when there are todos -->
     <section id="main">
-        <input id="toggle-all" type="checkbox">
-        <label for="toggle-all">Mark all as complete</label>
+        <?php $this->renderPartial('_toggleAllForm'); ?>
+        
         <ul id="todo-list">
            <?php foreach ($tasks as $task) {
                $this->renderPartial('_view', array('task'=>$task));

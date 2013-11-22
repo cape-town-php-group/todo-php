@@ -36,6 +36,21 @@ class TaskController extends Controller
             }
         }
     }
+    
+    /**
+     * Toggle all the tasks to either active or completed.
+     */
+    public function actionToggleAll()
+    {
+        if(isset($_POST['toggleAll']))
+        {
+            $state = (bool)$_POST['toggleAll'];
+            Task::toggleAll($state);
+            
+            Yii::app()->user->setState('toggleAll', $state);
+            $this->redirect(array('task/index'));
+        }
+    }
 
 
     // Uncomment the following methods and override them if needed

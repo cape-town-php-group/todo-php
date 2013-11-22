@@ -107,4 +107,20 @@ class TaskTest extends WebTestCase
         $this->refreshAndWait(10000);
         $this->assertEquals($this->getXpathCount("xpath=//li[@class='completed']"), 0);
     }
+    
+    public function testToggleAll()
+    {
+        $this->open('');
+        $this->assertEquals($this->getXpathCount("xpath=//li[@class='completed']"), 1);
+        
+        $this->click('id=toggle-all');
+        $this->waitForPageToLoad(10000);
+        
+        $this->assertEquals($this->getXpathCount("xpath=//li[@class='completed']"), 2);
+        
+        $this->click('id=toggle-all');
+        $this->waitForPageToLoad(10000);
+        
+        $this->assertEquals($this->getXpathCount("xpath=//li[@class='completed']"), 0);
+    }
 }
