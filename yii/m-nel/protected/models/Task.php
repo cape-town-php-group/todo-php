@@ -210,18 +210,20 @@ class Task extends CActiveRecord
         return $this->save();
     }
     
-    protected function beforeSave() {
-        Yii::log('In beforeSave()');
-        
+    /**
+     * Delete tasks that have been updated with an empty name.
+     * 
+     * @return boolean Whether the saving should continue.
+     */
+    protected function beforeSave()
+    {
         if(!parent::beforeSave())
         {
-            Yii::log('parent::beforeSave() == false');
             return false;
         }
         
         if(!$this->isNewRecord && empty($this->name))
         {
-            Yii::log('empty name');
             $this->delete();
             return false;
         }
