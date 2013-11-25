@@ -2,6 +2,16 @@
 
 class TaskController extends Controller
 {
+	public function filters()
+	{
+		return array(
+            'postOnly + create, update, toggleAll, clearCompleted',
+		);
+	}
+    
+    /**
+     * Display the todo list
+     */
 	public function actionIndex()
 	{
         $tasks = Task::model()->findAll();
@@ -29,15 +39,12 @@ class TaskController extends Controller
         if(isset($_POST['Task']))
         {
             $model->attributes=$_POST['Task'];
-            if($model->save())
-            {
-                $this->redirect(array('index'));
-            }
-            else
+            if(!$model->save())
             {
                 Yii::app()->user->setFlash('error', $model->getError('name'));
-                $this->redirect(array('index'));
             }
+            
+            $this->redirect(array('index'));
         }
     }
     
@@ -119,32 +126,4 @@ class TaskController extends Controller
         
         return $task;
     }
-
-
-    // Uncomment the following methods and override them if needed
-	/*
-	public function filters()
-	{
-		// return the filter configuration for this controller, e.g.:
-		return array(
-			'inlineFilterName',
-			array(
-				'class'=>'path.to.FilterClass',
-				'propertyName'=>'propertyValue',
-			),
-		);
-	}
-
-	public function actions()
-	{
-		// return external action classes, e.g.:
-		return array(
-			'action1'=>'path.to.ActionClass',
-			'action2'=>array(
-				'class'=>'path.to.AnotherActionClass',
-				'propertyName'=>'propertyValue',
-			),
-		);
-	}
-	*/
 }
