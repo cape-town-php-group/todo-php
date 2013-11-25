@@ -34,3 +34,5 @@ vanilla/wayneashleyberry/*
 ```
 
 As an implementer, you are free to use any coding standards, framework and style you prefer. Adding an implementation will most likely lead to feedback. The goal is to learn, and to be open to learning.
+
+There are also readme.md files in the base framework folders. These are for useful resources relating to the individual frameworks. Add to these any helpful (or interesting links) that you find relevant.
