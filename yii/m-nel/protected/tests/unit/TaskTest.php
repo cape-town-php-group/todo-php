@@ -31,6 +31,9 @@ class TaskTest extends DbTestCase
         $this->assertEquals($task->name, 'Test trim');
     }
     
+    /**
+     * Test validation that name may not be empty on create.
+     */
     public function testEmptyName()
     {
         $task = new Task;
@@ -38,55 +41,75 @@ class TaskTest extends DbTestCase
         $this->assertFalse($task->save());
     }
     
+    /**
+     * Test the 'completed' scope
+     */
     public function testCompleteScope()
     {
-        $this->assertEquals((int)Task::model()->completed()->count(), 1);
+        $this->assertEquals(1, (int)Task::model()->completed()->count());
         
         $this->tasks('task2')->delete();
         
-        $this->assertEquals((int)Task::model()->completed()->count(), 0);
+        $this->assertEquals(0, (int)Task::model()->completed()->count());
     }
     
+    /**
+     * Test the 'active' scope
+     */
     public function testActiveScope()
     {
-        $this->assertEquals((int)Task::model()->active()->count(), 1);
+        $this->assertEquals(1, (int)Task::model()->active()->count());
         
         $this->tasks('task1')->delete();
         
-        $this->assertEquals((int)Task::model()->active()->count(), 0);
+        $this->assertEquals(0, (int)Task::model()->active()->count());
     }
     
+    /**
+     * Test isCompleted() function
+     */
     public function testIsComplete()
     {
         $this->assertFalse($this->tasks('task1')->isCompleted());
         $this->assertTrue($this->tasks('task2')->isCompleted());
     }
     
+    /**
+     * Test the toggle all functionality.
+     * toggleAll(true)  => all completed
+     * toggleAll(false) => all active
+     */
     public function testToggleAll()
     {
-        $this->assertEquals((int)Task::model()->active()->count(), 1);
-        $this->assertEquals((int)Task::model()->completed()->count(), 1);
+        $this->assertEquals(1, (int)Task::model()->active()->count());
+        $this->assertEquals(1, (int)Task::model()->completed()->count());
         
         Task::toggleAll(true);
         
-        $this->assertEquals((int)Task::model()->active()->count(), 0);
-        $this->assertEquals((int)Task::model()->completed()->count(), 2);
+        $this->assertEquals(0, (int)Task::model()->active()->count());
+        $this->assertEquals(2, (int)Task::model()->completed()->count());
         
         Task::toggleAll(false);
         
-        $this->assertEquals((int)Task::model()->active()->count(), 2);
-        $this->assertEquals((int)Task::model()->completed()->count(), 0);
+        $this->assertEquals(2, (int)Task::model()->active()->count());
+        $this->assertEquals(0, (int)Task::model()->completed()->count());
     }
     
+    /**
+     * Clear completed should delete any completed tasks
+     */
     public function testClearCompleted()
     {
-        $this->assertEquals((int)Task::model()->completed()->count(), 1);
+        $this->assertEquals(1, (int)Task::model()->completed()->count());
         
         Task::clearCompleted();
         
-        $this->assertEquals((int)Task::model()->completed()->count(), 0);
+        $this->assertEquals(0, (int)Task::model()->completed()->count());
     }
     
+    /**
+     * Test task count methods
+     */
     public function testTaskCounts()
     {
         $this->assertEquals(Task::getActiveTasksCount(), 1);
@@ -106,13 +129,22 @@ class TaskTest extends DbTestCase
         $this->assertFalse(Task::areAllTasksCompleted());
     }
     
-    public function testCompleteTask()
+    /**
+     * Test the toggle status function
+     */
+    public function testToggleStatus()
     {
         $this->assertFalse($this->tasks('task1')->isCompleted());
         $this->assertTrue($this->tasks('task1')->toggleStatus());
         $this->assertTrue($this->tasks('task1')->isCompleted());
+        $this->assertTrue($this->tasks('task1')->toggleStatus());
+        $this->assertFalse($this->tasks('task1')->isCompleted());
     }
     
+    /**
+     * Test that when a task is updated with an empty name, 
+     * the task should be deleted
+     */
     public function testDeleteIfEmptyName()
     {
         $task = Task::model()->findByAttributes(array(
