@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Helper class to run migration at runtime
+ */
 class MigrateHelper {
     
     public static function runMigrate() {
