@@ -2,9 +2,36 @@
 
 class TaskTest extends WebTestCase
 {
+    /**
+     * Key codes
+     */
     const KEY_ENTER = "\\13";
     const KEY_ESCAPE = "\\27";
     
+    /**
+     * Header components
+     */
+    const LOCATOR_TOGGLE_ALL_BUTTON = 'id=toggle-all';
+    const LOCATOR_TOGGLE_ALL_BUTTON_CHECKED = "xpath=//input[@id='toggle-all' and @checked='checked']";
+    const LOCATOR_NEW_TODO_INPUT = 'id=new-todo';
+    
+    /**
+     * Task components
+     */
+    const LOCATOR_COMPLETED_TASK = "xpath=//li[@class='completed']";
+    const LOCATOR_TASK_TOGGLE_CHECKED = "xpath=//input[@class='toggle' and @type='checkbox' and not(@checked)]";
+    const LOCATOR_TASK_DESTROY_BUTTON = "xpath=//button[@class='destroy']";
+    const LOCATOR_TASK_EDIT_INPUT = "xpath=//input[@class='edit']";
+    const LOCATOR_TASK_LABEL = "//div[@class='view']//label";
+    
+    /**
+     * Footer components
+     */
+    const LOCATOR_CLEAR_COMPLETED_BOTTON = 'id=clear-completed';
+    
+    /**
+     * Fixtures
+     */
     public $fixtures=array(
         'tasks'=>'Task',
     );
@@ -41,26 +68,30 @@ class TaskTest extends WebTestCase
     public function testEnterCreatesNew()
     {
         $numberOfTasks = (int)Task::model()->count();
-		
         $this->open('');
-        // Enter a value for task name
-        $this->type('id=new-todo', 'test task');
-        $this->keyPress('id=new-todo', self::KEY_ENTER);
+		
+        // Create new task
+        $this->type(self::LOCATOR_NEW_TODO_INPUT, 'test task');
+        $this->keyPressAndWait(self::LOCATOR_NEW_TODO_INPUT, self::KEY_ENTER);
         
-        $this->waitForPageToLoad(10000);
-        $this->assertNotEquals($numberOfTasks, (int)Task::model()->count());
+        $this->assertEquals($numberOfTasks+1, (int)Task::model()->count());
     }
     
+    /**
+     * Test that the validation error is displayed to user
+     */
     public function testValidationErrorDisplay()
     {
         $this->open('');
         
-        $this->keyPress('id=new-todo', self::KEY_ENTER);
-        $this->waitForPageToLoad(10000);
+        $this->keyPressAndWait(self::LOCATOR_NEW_TODO_INPUT, self::KEY_ENTER);
         
         $this->assertElementPresent('id=validation-error');
     }
     
+    /**
+     * Test that the todo count in the #footer is accurate
+     */
     public function testTodoCount()
     {
         $this->open('');
@@ -81,6 +112,9 @@ class TaskTest extends WebTestCase
         $this->assertTextPresent('0 items left');
     }
     
+    /**
+     * Test that the todo items are listed
+     */
     public function testListTasks()
     {
         $this->open('');
@@ -88,10 +122,13 @@ class TaskTest extends WebTestCase
         $this->assertTextPresent($this->tasks('task2')->name);
     }
     
+    /**
+     * Test that completed tasks are presented as completed
+     */
     public function testIndicateCompleted()
     {
         $this->open('');
-        $this->assertEquals($this->getXpathCount("xpath=//li[@class='completed']"), 1);
+        $this->assertXpathCount(self::LOCATOR_COMPLETED_TASK, 1);
         
         $task = new Task;
         $task->name = 'Completed task';
@@ -99,105 +136,115 @@ class TaskTest extends WebTestCase
         $this->assertTrue($task->save());
         
         $this->refreshAndWait(10000);
-        $this->assertEquals($this->getXpathCount("xpath=//li[@class='completed']"), 2);
+        $this->assertXpathCount(self::LOCATOR_COMPLETED_TASK, 2);
         
         Task::clearCompleted();
         
         $this->refreshAndWait(10000);
-        $this->assertEquals($this->getXpathCount("xpath=//li[@class='completed']"), 0);
+        $this->assertXpathCount(self::LOCATOR_COMPLETED_TASK, 0);
     }
     
+    /**
+     * Test that the toggle all button functions propperly
+     */
     public function testToggleAll()
     {
         $this->open('');
-        $this->assertEquals($this->getXpathCount("xpath=//li[@class='completed']"), 1);
+        $this->assertXpathCount(self::LOCATOR_COMPLETED_TASK, 1);
         
-        $this->click('id=toggle-all');
-        $this->waitForPageToLoad(10000);
+        $this->clickAndWait(self::LOCATOR_TOGGLE_ALL_BUTTON);
+        $this->assertXpathCount(self::LOCATOR_COMPLETED_TASK, 2);
         
-        $this->assertEquals($this->getXpathCount("xpath=//li[@class='completed']"), 2);
-        
-        $this->click('id=toggle-all');
-        $this->waitForPageToLoad(10000);
-        
-        $this->assertEquals($this->getXpathCount("xpath=//li[@class='completed']"), 0);
+        $this->clickAndWait(self::LOCATOR_TOGGLE_ALL_BUTTON);
+        $this->assertXpathCount(self::LOCATOR_COMPLETED_TASK, 0);
     }
     
+    /**
+     * Test the clear completed button
+     */
     public function testClearCompleted()
     {
         $this->open('');
         $this->assertTextPresent('Clear completed (1)');
         
-        $this->click('id=toggle-all');
-        $this->waitForPageToLoad(10000);
-        
+        $this->clickAndWait(self::LOCATOR_TOGGLE_ALL_BUTTON);
         $this->assertTextPresent('Clear completed (2)');
         
-        $this->click('id=clear-completed');
-        $this->waitForPageToLoad(10000);
-        
+        $this->clickAndWait(self::LOCATOR_CLEAR_COMPLETED_BOTTON);
         $this->assertTextNotPresent('Clear completed');
         
-        // Toggle all checkbox must be reset
-        $this->type('id=new-todo', 'test task');
-        $this->keyPress('id=new-todo', self::KEY_ENTER);
-        $this->waitForPageToLoad(10000);
+        $this->type(self::LOCATOR_NEW_TODO_INPUT, 'test task');
+        $this->keyPressAndWait(self::LOCATOR_NEW_TODO_INPUT, self::KEY_ENTER);
         
-        $this->assertEquals($this->getXpathCount("xpath=//input[@id='toggle-all' and @checked='checked']"), 0);
+        // Toggle all checkbox must be reset
+        $this->assertXpathCount(self::LOCATOR_TOGGLE_ALL_BUTTON_CHECKED, 0);
     }
     
+    /**
+     * Test that the toggle task active/completed checkbox functions
+     */
     public function testCompleteTask()
     {
         $this->open('');
-        $this->assertEquals(1, $this->getXpathCount("xpath=//input[@class='toggle' and @type='checkbox' and not(@checked)]"));
+        $this->assertXpathCount(self::LOCATOR_TASK_TOGGLE_CHECKED, 1);
         
-        $this->click("xpath=//input[@class='toggle' and @type='checkbox' and not(@checked)]");
-        $this->refreshAndWait(10000);
+        $this->clickAndWait(self::LOCATOR_TASK_TOGGLE_CHECKED);
         
-        $this->assertEquals(0, $this->getXpathCount("xpath=//input[@class='toggle' and @type='checkbox' and not(@checked)]"));
+        $this->assertXpathCount(self::LOCATOR_TASK_TOGGLE_CHECKED, 0);
     }
     
+    /**
+     * Test that the destroy task button functions
+     */
     public function testDeleteTask()
     {
         $this->open('');
-        $this->assertEquals(2, $this->getXpathCount("xpath=//button[@class='destroy']"));
+        $this->assertXpathCount(self::LOCATOR_TASK_DESTROY_BUTTON, 2);
         
-        $this->click("xpath=//button[@class='destroy'][1]");
-        $this->refreshAndWait(10000);
+        $this->clickAndWait(self::LOCATOR_TASK_DESTROY_BUTTON."[1]");
         
-        $this->assertEquals(1, $this->getXpathCount("xpath=//button[@class='destroy']"));
+        $this->assertXpathCount(self::LOCATOR_TASK_DESTROY_BUTTON, 1);
     }
     
+    /**
+     * Test that double click on task label displays edit input.
+     * Test that enter key press & onBlur(lose focus) event saves task
+     */
     public function testTaskEditMode()
     {
         $this->open('');
-        $this->assertFalse($this->isVisible("xpath=//input[@class='edit'][1]"));
         
-        $this->doubleClick("//div[@class='view']//label[1]");
-        $this->assertTrue($this->isVisible("xpath=//input[@class='edit'][1]"));
+        // Display edit input
+        $this->assertNotVisible(self::LOCATOR_TASK_EDIT_INPUT."[1]");
+        $this->doubleClick(self::LOCATOR_TASK_LABEL."[1]");
+        $this->assertVisible(self::LOCATOR_TASK_EDIT_INPUT."[1]");
         
-        $this->type("xpath=//input[@class='edit'][1]", 'edited');
-        $this->keyPressAndWait("xpath=//input[@class='edit'][1]", self::KEY_ENTER);
-        $this->assertFalse($this->isVisible("xpath=//input[@class='edit'][1]"));
-        $this->assertEquals('edited', $this->getText("//div[@class='view']//label[1]"));
+        // Edit the task & press enter
+        $this->type(self::LOCATOR_TASK_EDIT_INPUT."[1]", 'edited');
+        $this->keyPressAndWait(self::LOCATOR_TASK_EDIT_INPUT."[1]", self::KEY_ENTER);
+        $this->assertNotVisible(self::LOCATOR_TASK_EDIT_INPUT."[1]");
+        $this->assertText(self::LOCATOR_TASK_LABEL."[1]", 'edited');
         
-        $this->doubleClick("//div[@class='view']//label[1]");
-        $this->assertTrue($this->isVisible("xpath=//input[@class='edit'][1]"));
-        
-        $this->type("xpath=//input[@class='edit'][1]", 're-edited');
-        $this->fireEventAndWait("xpath=//input[@class='edit'][1]", "blur");
-        $this->assertFalse($this->isVisible("xpath=//input[@class='edit'][1]"));
-        $this->assertEquals('re-edited', $this->getText("//div[@class='view']//label[1]"));
+        // Edit task & fire blur event
+        $this->doubleClick(self::LOCATOR_TASK_LABEL."[1]");
+        $this->assertVisible(self::LOCATOR_TASK_EDIT_INPUT."[1]");
+        $this->type(self::LOCATOR_TASK_EDIT_INPUT."[1]", 're-edited');
+        $this->fireEventAndWait(self::LOCATOR_TASK_EDIT_INPUT."[1]", "blur");
+        $this->assertNotVisible(self::LOCATOR_TASK_EDIT_INPUT."[1]");
+        $this->assertText(self::LOCATOR_TASK_LABEL."[1]", 're-edited');
     }
     
+    /**
+     * Test that when editing a task, pressing the escape button will canel editing
+     */
     public function testTaskEscapeEditMode()
     {
         $this->open('');
-        $this->assertFalse($this->isVisible("xpath=//input[@class='edit'][1]"));
-        $this->doubleClick("//div[@class='view']//label[1]");
-        $this->type("xpath=//input[@class='edit'][1]", 'edited');
-        $this->keyDown("xpath=//input[@class='edit'][1]", self::KEY_ESCAPE);
-        $this->assertTrue($this->isVisible("//div[@class='view']//label[1]"));
-        $this->assertEquals('Rule the web', $this->getText("//div[@class='view']//label[1]"));
+        $this->assertNotVisible(self::LOCATOR_TASK_EDIT_INPUT."[1]");
+        $this->doubleClick(self::LOCATOR_TASK_LABEL."[1]");
+        $this->type(self::LOCATOR_TASK_EDIT_INPUT."[1]", 'edited');
+        $this->keyDown(self::LOCATOR_TASK_EDIT_INPUT."[1]", self::KEY_ESCAPE);
+        $this->assertVisible(self::LOCATOR_TASK_LABEL."[1]");
+        $this->assertText(self::LOCATOR_TASK_LABEL."[1]", 'Rule the web');
     }
 }
