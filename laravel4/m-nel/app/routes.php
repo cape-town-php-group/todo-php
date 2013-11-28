@@ -6,7 +6,7 @@ Route::get('tasks', [
   'as' => 'home',
   'uses' => 'TasksController@index'
 ]);
-Route::get('tasks/{task}', [
+Route::get('tasks/{task}/destroy', [
   'as' => 'tasks.destroy',
   'uses' => 'TasksController@destroy'
 ]);
