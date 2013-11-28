@@ -14,3 +14,7 @@ Route::get('tasks/clear-completed', [
   'as' => 'tasks.clearCompleted',
   'uses' => 'TasksController@clearCompleted'
 ]);
+Route::put('tasks/toggle-all', [
+  'as' => 'tasks.toggleAll',
+  'uses' => 'TasksController@toggleAll'
+]);

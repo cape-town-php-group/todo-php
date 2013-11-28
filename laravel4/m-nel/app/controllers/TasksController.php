@@ -22,4 +22,11 @@ class TasksController extends BaseController {
 
     return Redirect::home();
   }
+
+  public function toggleAll()
+  {
+    Task::toggleAll();
+    
+    return Redirect::home();
+  }
 }

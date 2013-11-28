@@ -18,19 +18,7 @@
 
       <!-- This section should be hidden by default and shown when there are todos -->
       @if(count($tasks) > 0)
-        <section id="main">
-          <input id="toggle-all" type="checkbox">
-          <label for="toggle-all">Mark all as complete</label>
-          
-          <ul id="todo-list">
-            @foreach($tasks as $task)
-              @include('tasks._task', ['task'=>$task])
-            @endforeach
-          </ul>
-
-        </section>
-
-        <!-- This footer should hidden by default and shown when there are todos -->
+        @include('tasks._main')
         @include('tasks._footer')
       @endif
 

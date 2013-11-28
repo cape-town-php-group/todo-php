@@ -13,4 +13,14 @@ class Task extends Eloquent {
   {
     return $query->whereCompleted(true);
   }
+
+  public static function toggleAll()
+  {
+    DB::table('tasks')->update(['completed' => Task::hasTodo()]);
+  }
+
+  public static function hasTodo()
+  {
+    return Task::todo()->count() > 0;
+  }
 }
