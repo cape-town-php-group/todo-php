@@ -20,6 +20,10 @@
   </ul>
 
   <!-- Hidden if no completed items are left ↓ -->
-  <button id="clear-completed">Clear completed (1)</button>
+  @if(count(Task::completed()->get()))
+    <a href="{{ route('tasks.clearCompleted') }}">
+      <button id="clear-completed">Clear completed ({{ count(Task::completed()->get()) }})</button>
+    </a>
+  @endif
 
 </footer>

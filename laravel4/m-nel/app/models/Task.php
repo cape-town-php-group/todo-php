@@ -8,4 +8,9 @@ class Task extends Eloquent {
   {
     return $query->whereCompleted(false);
   }
+
+  public function scopeCompleted($query)
+  {
+    return $query->whereCompleted(true);
+  }
 }

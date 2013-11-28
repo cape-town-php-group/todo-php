@@ -10,3 +10,7 @@ Route::get('tasks/{task}/destroy', [
   'as' => 'tasks.destroy',
   'uses' => 'TasksController@destroy'
 ]);
+Route::get('tasks/clear-completed', [
+  'as' => 'tasks.clearCompleted',
+  'uses' => 'TasksController@clearCompleted'
+]);

@@ -15,4 +15,11 @@ class TasksController extends BaseController {
     
     return Redirect::home();
   }
+
+  public function clearCompleted()
+  {
+    Task::completed()->delete();
+
+    return Redirect::home();
+  }
 }
