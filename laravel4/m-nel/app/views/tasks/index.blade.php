@@ -24,34 +24,16 @@
           
           <ul id="todo-list">
             @foreach($tasks as $task)
-              @include('tasks.task', ['task'=>$task])
+              @include('tasks._task', ['task'=>$task])
             @endforeach
           </ul>
 
         </section>
+
+        <!-- This footer should hidden by default and shown when there are todos -->
+        @include('tasks._footer')
       @endif
 
-      <!-- This footer should hidden by default and shown when there are todos -->
-      <footer id="footer">
-        <!-- This should be `0 items left` by default -->
-        <span id="todo-count"><strong>1</strong> item left</span>
-        <!-- Remove this if you don't implement routing -->
-        
-        <ul id="filters">
-          <li>
-            <a class="selected" href="#/">All</a>
-          </li>
-          <li>
-            <a href="#/active">Active</a>
-          </li>
-          <li>
-            <a href="#/completed">Completed</a>
-          </li>
-        </ul>
-
-        <!-- Hidden if no completed items are left ↓ -->
-        <button id="clear-completed">Clear completed (1)</button>
-      </footer>
     </section>
 
     <footer id="info">
