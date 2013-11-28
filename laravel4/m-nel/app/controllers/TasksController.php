@@ -3,6 +3,8 @@
 class TasksController extends BaseController {
   public function index()
   {
-    return View::make('tasks.index');
+    $tasks = Task::all();
+
+    return View::make('tasks.index')->with('tasks', $tasks);
   }
 }
