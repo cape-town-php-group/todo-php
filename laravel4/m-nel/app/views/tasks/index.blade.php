@@ -11,10 +11,7 @@
 
     <section id="todoapp">
 
-      <header id="header">
-        <h1>todos</h1>
-        <input id="new-todo" placeholder="What needs to be done?" autofocus>
-      </header>
+      @include('tasks._header')
 
       <!-- This section should be hidden by default and shown when there are todos -->
       @if(count($tasks) > 0)
