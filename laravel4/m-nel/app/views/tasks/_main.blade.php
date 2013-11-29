@@ -31,7 +31,14 @@
     edit.focus();
   });
   $('.edit').blur(function() {
-    $(this).parent('form').submit();
+    if($(this).parents('li').hasClass('editing')) {
+      $(this).parent('form').submit();
+    }
+  });
+  $('.edit').on('keydown', function(e) {
+    if (e.keyCode == 27) {
+      $(this).parents('li').removeClass('editing');
+    }
   });
   
 @stop
