@@ -4,6 +4,8 @@ class Task extends Eloquent {
 
   public $timestamps = false;
 
+  protected $guarded = ['id'];
+
   public function scopeTodo($query)
   {
     return $query->whereCompleted(false);

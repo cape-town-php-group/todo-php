@@ -22,3 +22,7 @@ Route::post('tasks', [
   'as' => 'tasks.store',
   'uses' => 'TasksController@store'
 ]);
+Route::put('tasks/{task}', [
+  'as' => 'tasks.update',
+  'uses' => 'TasksController@update'
+]);

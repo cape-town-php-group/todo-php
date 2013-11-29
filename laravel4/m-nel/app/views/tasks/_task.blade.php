@@ -1,8 +1,15 @@
 
 <li {{ $task->completed?'class="completed"':'' }}>
   <div class="view">
-    <input class="toggle" type="checkbox" {{ $task->completed?'checked':'' }}>
-    
+  
+    {{ Form::open(['route' => ['tasks.update', $task->id], 'method' => 'PUT']) }}
+      {{ Form::hidden('completed', '0') }}
+      {{ Form::checkbox('completed', 1, $task->completed, [
+        'class'  => 'toggle',
+        'onChange' => 'this.form.submit()'
+      ]) }}
+    {{ Form::close() }}
+
     <label>{{ $task->title }}</label>
     
     <a href="{{ route('tasks.destroy', $task->id) }}">
