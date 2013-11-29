@@ -24,11 +24,14 @@
 
   $('div.view>label').dblclick(function() {
     var view = $(this).parent();
-    var task = view.parent();
+    var task = view.parent().parent();
     task.addClass('editing');
     
     var edit = view.siblings('input.edit');
     edit.focus();
+  });
+  $('.edit').blur(function() {
+    $(this).parent('form').submit();
   });
   
 @stop

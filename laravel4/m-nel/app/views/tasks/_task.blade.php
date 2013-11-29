@@ -1,20 +1,22 @@
 
 <li {{ $task->completed?'class="completed"':'' }}>
-  <div class="view">
-  
-    {{ Form::open(['route' => ['tasks.update', $task->id], 'method' => 'PUT']) }}
+
+  {{ Form::model($task, ['route' => ['tasks.update', $task->id], 'method' => 'PUT']) }}
+
+    <div class="view">
       {{ Form::hidden('completed', '0') }}
       {{ Form::checkbox('completed', 1, $task->completed, [
         'class'  => 'toggle',
         'onChange' => 'this.form.submit()'
       ]) }}
-    {{ Form::close() }}
 
-    <label>{{ $task->title }}</label>
-    
-    <a href="{{ route('tasks.destroy', $task->id) }}">
-      <button class="destroy"></button>
-    </a>
-  </div>
-  <input class="edit" value="{{ $task->title }}">
+      <label>{{ $task->title }}</label>
+      
+      <a href="{{ route('tasks.destroy', $task->id) }}">
+        <button class="destroy"></button>
+      </a>
+    </div>
+
+    {{ Form::text('title', null, ['class' => 'edit']) }}
+  {{ Form::close() }}
 </li>
