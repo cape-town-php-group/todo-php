@@ -18,3 +18,17 @@
   </ul>
 
 </section>
+
+@section('scripts')
+  @parent
+
+  $('div.view>label').dblclick(function() {
+    var view = $(this).parent();
+    var task = view.parent();
+    task.addClass('editing');
+    
+    var edit = view.siblings('input.edit');
+    edit.focus();
+  });
+  
+@stop
