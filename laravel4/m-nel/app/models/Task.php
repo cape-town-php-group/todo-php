@@ -6,6 +6,21 @@ class Task extends Eloquent {
 
   protected $guarded = ['id'];
 
+  public static function boot()
+  {
+    parent::boot();
+
+    static::saving(function($task)
+    {
+      // If the title is empty, delete it
+      if (empty($task->title))
+      {
+        $task->delete();
+        return false;
+      }
+    });
+  }
+
   public function scopeTodo($query)
   {
     return $query->whereCompleted(false);
