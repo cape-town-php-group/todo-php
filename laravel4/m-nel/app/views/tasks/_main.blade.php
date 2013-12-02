@@ -1,7 +1,7 @@
 
 <section id="main">
 
-  {{ Form::open(['route' => 'tasks.toggleAll', 'method' => 'put']) }}
+  {{ Form::open(['route' => 'tasks.toggleAll', 'method' => 'PATCH']) }}
 
     {{ Form::checkbox('toggleAll', '', !Task::hasTodo(), [
       'id' => 'toggle-all', 
@@ -22,12 +22,13 @@
 @section('scripts')
   @parent
 
-  $('div.view>label').dblclick(function() {
-    var view = $(this).parent();
-    var task = view.parent().parent();
+  $('div.view>form>label').dblclick(function() {
+    var view = $(this).parents('div.view');
+    var task = view.parent();
     task.addClass('editing');
     
-    var edit = view.siblings('input.edit');
+    var form = view.siblings('form');
+    var edit = form.children('input.edit');
     edit.focus();
   });
   $('.edit').blur(function() {

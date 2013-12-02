@@ -21,9 +21,12 @@
 
   <!-- Hidden if no completed items are left ↓ -->
   @if(count(Task::completed()->get()))
-    <a href="{{ route('tasks.clearCompleted') }}">
-      <button id="clear-completed">Clear completed ({{ count(Task::completed()->get()) }})</button>
-    </a>
+    <!-- Clear completed form -->
+    {{ Form::open(['route' => 'tasks.clearCompleted', 'method' => 'PATCH']) }}
+      <button id="clear-completed">
+        Clear completed ({{ Task::completed()->get()->count() }})
+      </button>
+    {{ Form::close() }}
   @endif
 
 </footer>

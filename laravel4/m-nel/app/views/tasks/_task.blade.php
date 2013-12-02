@@ -1,22 +1,26 @@
 
 <li {{ $task->completed?'class="completed"':'' }}>
 
-  {{ Form::model($task, ['route' => ['tasks.update', $task->id], 'method' => 'PUT']) }}
-
     <div class="view">
-      {{ Form::hidden('completed', '0') }}
-      {{ Form::checkbox('completed', 1, $task->completed, [
-        'class'  => 'toggle',
-        'onChange' => 'this.form.submit()'
-      ]) }}
+      <!-- Toggle form -->
+      {{ Form::model($task, ['route' => ['tasks.update', $task->id], 'method' => 'PATCH']) }}
+        {{ Form::hidden('completed', '0') }}
+        {{ Form::checkbox('completed', 1, $task->completed, [
+          'class'  => 'toggle',
+          'onChange' => 'this.form.submit()'
+        ]) }}
 
-      <label>{{ $task->title }}</label>
+        <label>{{ $task->title }}</label>
+      {{ Form::close() }}
       
-      <a href="{{ route('tasks.destroy', $task->id) }}">
+      <!-- Delete form -->
+      {{ Form::open(['route' => ['tasks.destroy', $task->id], 'method' => 'DELETE']) }}
         <button class="destroy"></button>
-      </a>
+      {{ Form::close() }}
     </div>
 
-    {{ Form::text('title', null, ['class' => 'edit']) }}
-  {{ Form::close() }}
+    <!-- Edit form -->
+    {{ Form::model($task, ['route' => ['tasks.update', $task->id], 'method' => 'PATCH']) }}
+      {{ Form::text('title', null, ['class' => 'edit']) }}
+    {{ Form::close() }}
 </li>
