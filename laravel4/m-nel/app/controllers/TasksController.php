@@ -45,7 +45,6 @@ class TasksController extends BaseController {
 
   public function update($task)
   {
-    // Yeah, I know... should not do this
     $task->fill(Input::all());
     $task->save();
 

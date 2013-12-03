@@ -4,7 +4,7 @@ class Task extends BaseModel {
 
   public $timestamps = false;
 
-  protected $guarded = ['id'];
+  protected $fillable = ['title','completed'];
 
   protected static $rules = [
     'title' => 'required'
@@ -14,10 +14,10 @@ class Task extends BaseModel {
   {
     parent::boot();
 
-    static::saving(function($task)
+    // Delete task if the title is empty
+    static::validating(function($task)
     {
-      // If the title is empty, delete it
-      if (empty($task->title))
+      if ($task->exists && empty($task->title))
       {
         $task->delete();
         return false;

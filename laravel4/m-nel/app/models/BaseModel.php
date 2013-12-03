@@ -16,6 +16,11 @@ class BaseModel extends Eloquent {
 
   public function validate()
   {
+    if ($this->fireModelEvent('validating') === false)
+    {
+      return false;
+    }
+
     $validation = Validator::make($this->getAttributes(), static::$rules);
 
     if($validation->fails())
@@ -24,7 +29,19 @@ class BaseModel extends Eloquent {
       return false;
     }
 
+    $this->fireModelEvent('validated', false);
+
     return true;
+  }
+
+  public static function validating($callback)
+  {
+    static::registerModelEvent('validating', $callback);
+  }
+
+  public static function validated($callback)
+  {
+    static::registerModelEvent('validated', $callback);
   }
 
   public function getErrors()
