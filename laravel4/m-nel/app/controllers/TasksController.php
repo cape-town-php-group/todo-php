@@ -14,7 +14,8 @@ class TasksController extends BaseController {
 
   public function index()
   {
-    $tasks = Task::all();
+    $filter = Input::get('filter', 'all');
+    $tasks = Task::filterBy($filter)->get();
 
     return View::make('tasks.index')->with('tasks', $tasks);
   }

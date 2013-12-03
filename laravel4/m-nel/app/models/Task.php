@@ -31,6 +31,19 @@ class Task extends Eloquent {
     return $query->whereCompleted(true);
   }
 
+  public function scopeFilterBy($query, $by)
+  {
+    switch($by)
+    {
+      case 'active';
+        return $query->todo();
+      case 'completed';
+        return $query->completed();
+      default:
+        return $query;
+    }
+  }
+
   public static function toggleAll()
   {
     DB::table('tasks')->update(['completed' => Task::hasTodo()]);
