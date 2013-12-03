@@ -1,6 +1,7 @@
 <?php
 
 Route::model('task', 'Task');
+Route::when('tasks/*', 'csrf', ['post', 'patch', 'delete']);
 
 Route::get('tasks', [
   'as' => 'home',
