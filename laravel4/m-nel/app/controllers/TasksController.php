@@ -1,16 +1,6 @@
 <?php
 
-use TodoPHP\Services\TaskCreatorService;
-use TodoPHP\Validators\ValidationException;
-
 class TasksController extends BaseController {
-  
-  protected $taskCreator;
-
-  public function __construct(TaskCreatorService $taskCreator)
-  {
-    $this->taskCreator = $taskCreator;
-  }
 
   public function index()
   {
@@ -43,13 +33,11 @@ class TasksController extends BaseController {
 
   public function store()
   {
-    try 
+    $task = new Task(Input::all());
+
+    if( ! $task->save())
     {
-      $this->taskCreator->make(Input::all());
-    } 
-    catch(ValidationException $e)
-    {
-      return Redirect::home()->withErrors($e->getErrors());
+      return Redirect::home()->withErrors($task->getErrors());
     }
 
     return Redirect::home();

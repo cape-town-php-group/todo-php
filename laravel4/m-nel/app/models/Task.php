@@ -1,10 +1,14 @@
 <?php
 
-class Task extends Eloquent {
+class Task extends BaseModel {
 
   public $timestamps = false;
 
   protected $guarded = ['id'];
+
+  protected static $rules = [
+    'title' => 'required'
+  ];
 
   public static function boot()
   {
