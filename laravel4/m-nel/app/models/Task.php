@@ -25,6 +25,11 @@ class Task extends BaseModel {
     });
   }
 
+  public function setTitleAttribute($title)
+  {
+    $this->attributes['title'] = trim($title);
+  }
+
   public function scopeTodo($query)
   {
     return $query->whereCompleted(false);
