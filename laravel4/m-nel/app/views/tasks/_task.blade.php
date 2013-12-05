@@ -10,7 +10,7 @@
           'onChange' => 'this.form.submit()'
         ]) }}
 
-        <label>{{ $task->title }}</label>
+        <label>{{{ $task->title }}}</label>
       {{ Form::close() }}
       
       <!-- Delete form -->
