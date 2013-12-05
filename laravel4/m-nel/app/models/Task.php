@@ -14,14 +14,9 @@ class Task extends BaseModel {
   {
     parent::boot();
 
-    // Delete task if the title is empty
     static::validating(function($task)
     {
-      if ($task->exists && empty($task->title))
-      {
-        $task->delete();
-        return false;
-      }
+      $task->deleteEmptyOnUpdate();
     });
   }
 
@@ -61,5 +56,21 @@ class Task extends BaseModel {
   public static function hasTodo()
   {
     return Task::todo()->count() > 0;
+  }
+
+  /**
+   * If the title is empty and the model already exists, delete the task.
+   *
+   * @return boolean False if the task has been deleted, true otherwise.
+   */
+  protected function deleteEmptyOnUpdate()
+  {
+      if ($this->exists && empty($this->title))
+      {
+        $this->delete();
+        return false;
+      }
+
+      return true;
   }
 }
