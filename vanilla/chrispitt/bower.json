@@ -1,0 +1,19 @@
+{
+  "name"     : "todo",
+  "version"  : "1.0.0",
+  "homepage" : "https://github.com/cape-town-php-group/todo-php",
+  "authors"  : [
+    "Christopher Pitt <cgpitt@gmail.com>"
+  ],
+  "license" : "MIT",
+  "ignore"  : [
+    "**/.*",
+    "components",
+    "tests"
+  ],
+  "dependencies" : {
+    "react"     : "~0.9.0",
+    "jquery"    : "~2.1.0",
+    "bootstrap" : "~3.1.1"
+  }
+}
