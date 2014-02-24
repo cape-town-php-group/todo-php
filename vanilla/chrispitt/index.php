@@ -20,7 +20,7 @@ $json = ob_get_contents();
 
 ob_end_clean();
 
-// get tasks our of json string
+// get tasks out of json string
 
 $data  = json_decode($json);
 $tasks = $data->tasks;
